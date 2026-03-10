@@ -27,4 +27,4 @@ jobs:
       - name: Run release-plz
         uses: release-plz/action@f708778669256143d984cce4b23592637532e040 # v0.5.127 (https://github.com/release-plz/action/releases/tag/v0.5.127)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
