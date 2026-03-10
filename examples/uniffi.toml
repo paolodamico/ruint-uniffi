@@ -1,3 +1,10 @@
+# Copy the types you need into your own uniffi.toml. Without this, your
+# types will be lowered as `String`s which is not what you want.
+#
+# Kotlin: maps to java.math.BigInteger
+# Swift:  maps to BigUInt from attaswift/BigInt (add `imports = ["BigInt"]`)
+
+
 ###### U128 ######
 
 [bindings.kotlin.custom_types.Uint128]

@@ -2,6 +2,9 @@
 //!
 //! Wrapper types are created such that e.g. `U256` becomes `UInt256`. These types can easily be lowered/lifted
 //! to/from foreign languages. Particularly tested for Swift and Kotlin.
+//!
+//! Custom types are introduced as type aliases like `U256` are not supported by uniffi. Further,
+//! the `Uint` type is also not supported due to the generic bits and limbs.
 
 use core::fmt;
 use core::ops::{Deref, DerefMut};
@@ -57,13 +60,19 @@ macro_rules! define_uint {
             }
         }
 
-        /// Conversion from type to `String` for lowering to foreign languages
+        /// Conversion from `Uint` to `String` for lowering to foreign languages.
+        ///
+        /// Hex-encoded number as strings are used primarily because lowering arrays via the uniffi
+        /// boundary is not supported, so allocating a `Vec` already requires heap allocation. Furthermore,
+        /// using a `Vec` results in more cumbersome handling on the native side as the native types don't
+        /// offer a simple way of parsing from a byte array.
         impl From<$name> for String {
             fn from(v: $name) -> Self {
                 format!("{:x}", v.0)
             }
         }
 
+        /// Conversion from `String` to `Uint` for lifting from foreign languages.
         impl TryFrom<String> for $name {
             type Error = ruint::ParseError;
 
