@@ -11,9 +11,14 @@ authors = [
 
 [dependencies]
 ruint = "1"
+serde = { version = "1", default-features = false, features = ["derive"], optional = true }
 
 [dev-dependencies]
 proptest = "1"
+serde_json = "1"
+
+[features]
+serde = ["dep:serde", "ruint/serde"]
 
 [lints.clippy]
 all = { level = "deny", priority = -1 }

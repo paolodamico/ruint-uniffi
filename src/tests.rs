@@ -92,6 +92,24 @@ macro_rules! roundtrip_tests {
                 assert!(try_lift(&overflow).is_err());
             }
 
+            #[cfg(feature = "serde")]
+            #[test]
+            fn serde_json_roundtrip_zero() {
+                let v = <$type>::default();
+                let json = serde_json::to_string(&v).unwrap();
+                let back: $type = serde_json::from_str(&json).unwrap();
+                assert_eq!(back, v);
+            }
+
+            #[cfg(feature = "serde")]
+            #[test]
+            fn serde_json_roundtrip_max() {
+                let v = <$type>::from(ruint::Uint::<$bits, $limbs>::MAX);
+                let json = serde_json::to_string(&v).unwrap();
+                let back: $type = serde_json::from_str(&json).unwrap();
+                assert_eq!(back, v);
+            }
+
             proptest! {
                 #[test]
                 fn prop_value_roundtrip(limb: u64) {
