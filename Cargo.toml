@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 description = "UniFFI bindings for ruint integer types"
 license = "MIT"
+readme = "README.md"
 authors = [
     "Paolo D'Amico <5864173+paolodamico@users.noreply.github.com>",
 ]

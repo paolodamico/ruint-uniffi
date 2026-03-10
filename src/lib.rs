@@ -1,10 +1,4 @@
-//! `ruint-uniffi` provides `UniFFI`-friendly wrapper types for [`ruint::Uint`].
-//!
-//! Wrapper types are created such that e.g. `U256` becomes `UInt256`. These types can easily be lowered/lifted
-//! to/from foreign languages. Particularly tested for Swift and Kotlin.
-//!
-//! Custom types are introduced as type aliases like `U256` are not supported by uniffi. Further,
-//! the `Uint` type is also not supported due to the generic bits and limbs.
+#![doc = include_str!("../README.md")]
 
 use core::fmt;
 use core::ops::{Deref, DerefMut};
@@ -19,6 +13,14 @@ macro_rules! define_uint {
         #[repr(transparent)]
         /// A foreign-friendly compatible unsigned integer from [`ruint::Uint`].
         pub struct $name(pub ruint::Uint<$bits, $limbs>);
+
+        impl $name {
+            /// Convert the `Uint` to a padded hex string with leading zeros, ensuring a fixed length of $BITS.
+            #[must_use]
+            pub fn to_padded_hex_string(&self) -> String {
+                format!("{:#0width$x}", self.0, width = $bits / 4 + 2)
+            }
+        }
 
         impl Deref for $name {
             type Target = ruint::Uint<$bits, $limbs>;

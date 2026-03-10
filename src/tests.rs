@@ -52,6 +52,35 @@ macro_rules! roundtrip_tests {
             }
 
             #[test]
+            fn padded_hex_zero() {
+                let v = <$type>::default();
+                let hex = v.to_padded_hex_string();
+                let expected_len = $bits / 4 + 2;
+                assert_eq!(hex.len(), expected_len);
+                assert!(hex.starts_with("0x"));
+                assert!(hex[2..].chars().all(|c| c == '0'));
+            }
+
+            #[test]
+            fn padded_hex_one() {
+                let v = <$type>::from(ruint::Uint::<$bits, $limbs>::from(1u64));
+                let hex = v.to_padded_hex_string();
+                let expected_len = $bits / 4 + 2;
+                assert_eq!(hex.len(), expected_len);
+                assert!(hex.ends_with('1'));
+                assert!(hex[2..expected_len - 1].chars().all(|c| c == '0'));
+            }
+
+            #[test]
+            fn padded_hex_max() {
+                let v = <$type>::from(ruint::Uint::<$bits, $limbs>::MAX);
+                let hex = v.to_padded_hex_string();
+                let expected_len = $bits / 4 + 2;
+                assert_eq!(hex.len(), expected_len);
+                assert!(hex[2..].chars().all(|c| c == 'f'));
+            }
+
+            #[test]
             fn error_invalid_hex() {
                 assert!(try_lift("zzzz").is_err());
             }
