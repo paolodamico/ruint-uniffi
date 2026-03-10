@@ -10,6 +10,8 @@ mod tests;
 macro_rules! define_uint {
     ($name:ident, $bits:literal, $limbs:literal) => {
         #[derive(Clone, Copy, Debug, Default, Hash, PartialEq, Eq, PartialOrd, Ord)]
+        #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+        #[cfg_attr(feature = "serde", serde(transparent))]
         #[repr(transparent)]
         /// A foreign-friendly compatible unsigned integer from [`ruint::Uint`].
         pub struct $name(pub ruint::Uint<$bits, $limbs>);
