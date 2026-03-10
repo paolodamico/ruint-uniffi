@@ -1,0 +1,34 @@
+[package]
+name = "ruint-uniffi"
+version = "0.1.0"
+edition = "2021"
+description = "UniFFI bindings for ruint integer types"
+license = "MIT"
+authors = [
+    "Paolo D'Amico <5864173+paolodamico@users.noreply.github.com>",
+]
+
+[dependencies]
+ruint = "1"
+
+[dev-dependencies]
+proptest = "1"
+
+[features]
+serde = ["ruint/serde"]
+
+[lints.clippy]
+all = { level = "deny", priority = -1 }
+pedantic = { level = "deny", priority = -1 }
+nursery = { level = "deny", priority = -1 }
+dbg_macro = "deny"
+todo = "deny"
+print_stdout = "deny"
+print_stderr = "deny"
+panic = "deny"
+panic_in_result_fn = "deny"
+unimplemented = "deny"
+
+[lints.rust]
+missing_docs = "deny"
+dead_code = "deny"
